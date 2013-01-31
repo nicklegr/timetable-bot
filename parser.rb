@@ -12,6 +12,7 @@ class Parser
     /　+$/,
   ]
 
+  # @todo RedCloth -> Nokogiriのコンボのほうがロバストになりそう
   def self.parse(doc)
     timetable = []
 
