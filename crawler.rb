@@ -7,9 +7,18 @@ require 'open-uri'
 require './parser'
 require './db'
 
-data = JSON.parse(open('http://api.atnd.org/events/?count=100&format=json').read)
+def get_events(date)
+  ymd = date.strftime('%Y%m%d')
+  url = "http://api.atnd.org/events/?ymd=#{ymd}&count=100&format=json"
+  json = open(url).read
+  JSON.parse(json)['events']
+end
 
-data['events'].each do |event|
+events = []
+events += get_events(Time.now)
+events += get_events(Time.now + 3600 * 24)
+
+events.each do |event|
   # 同じイベントが取得済みなら、既存のデータを一旦削除
   Topic.destroy_all(url: event['event_url'])
 
