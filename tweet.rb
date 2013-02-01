@@ -24,7 +24,7 @@ class Tweet
     # 140文字超えたらタイトルカット
     test_len = "■ ----- #{starts_at} #{title} #{hashtag}".strip.size + URL_LEN + 1
     if test_len > TWEET_MAX_LEN
-      # @todo titleの最後にURLがあると途中で切れる
+      # @todo title内のURLやらユーザー名が途中で切れることがある
       title = title.slice(0, title.size - (test_len - TWEET_MAX_LEN))
     end
 
