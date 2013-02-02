@@ -25,6 +25,7 @@ class Tweet
     test_len = "■ ----- #{starts_at} #{title} #{hashtag}".strip.size + URL_LEN + 1
     if test_len > TWEET_MAX_LEN
       # @todo title内のURLやらユーザー名が途中で切れることがある
+      # それらは「一単語」として考え、単語の途中で切れる場合は単語ごと消す感じでいいかな
       title = title.slice(0, title.size - (test_len - TWEET_MAX_LEN))
     end
 

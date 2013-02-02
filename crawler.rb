@@ -9,7 +9,7 @@ require './db'
 
 def get_events(date)
   ymd = date.strftime('%Y%m%d')
-  url = "http://api.atnd.org/events/?ymd=#{ymd}&count=100&format=json"
+  url = "http://api.atnd.org/events/?ymd=#{ymd}&count=100&format=json" # @todo 100以上も取得
   json = open(url).read
   JSON.parse(json)['events']
 end
