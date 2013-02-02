@@ -2,7 +2,7 @@
 
 require './parser'
 
-VECTOR = [
+TIMETABLES = [
   # シンプル
   {
     timetable: [
@@ -102,7 +102,7 @@ VECTOR = [
 ]
 
 describe Parser, ".parse" do
-  VECTOR.each do |entry|
+  TIMETABLES.each do |entry|
     it "returns correct timetable" do
       timetable = Parser.parse(entry[:doc])
       expect(timetable).to eq(entry[:timetable])
