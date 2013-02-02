@@ -152,7 +152,12 @@ describe Parser, ".parse" do
   TIMETABLES.each do |entry|
     it "returns correct timetable" do
       timetable = Parser.parse(entry[:doc])
-      expect(timetable).to eq(entry[:timetable])
+
+      expect(timetable.size).to eq(entry[:timetable].size)
+
+      timetable.zip(entry[:timetable]).each do |e|
+        expect(e[0]).to eq(e[1])
+      end
     end
   end
 end
