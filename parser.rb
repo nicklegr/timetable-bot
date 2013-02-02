@@ -2,23 +2,36 @@
 
 require 'pp'
 require 'redcloth'
+require 'nokogiri'
 require 'cgi'
 
 class Parser
-  NOISE = [
-    /<[^>]+>/,
-    /\\\d./,
-    /^　+/,
-    /　+$/,
+  REPLACE = [
+    [ /\n/, ' ' ],
+    [ /^　+/, '' ],
+    [ /　+$/, '' ],
   ]
 
-  # @todo RedCloth -> Nokogiriのコンボのほうがロバストになりそう
   def self.parse(doc)
     timetable = []
 
-    doc.each_line do |line|
-      cols = parse_row(line)
-      if cols
+    html = RedCloth.new(doc).to_html
+    doc = Nokogiri::HTML(html)
+
+    doc.css('tr').each do |row|
+      cols = row.css('td').map{|e| e.inner_text }
+
+      cols.map! do |e|
+        s = e
+        REPLACE.each do |entry|
+          s = s.gsub(entry[0], entry[1])
+        end
+        s.strip
+      end
+
+      cols.reject!{|e| e.empty? }
+
+      if cols.size >= 2
         time_col = cols[0].tr('０-９：', '0-9:')
         if time_col.match(/(\d+:\d+)/)
           time_str = $1
@@ -30,30 +43,5 @@ class Parser
     end
 
     timetable
-  end
-
-  def self.parse_row(str)
-    return unless str.index('|')
-
-    cols = str.split(/\s*\|\s*/)
-
-    cols.map! do |e|
-      s = RedCloth.new(e).to_html
-
-      NOISE.each do |re|
-        s = s.gsub(re, '')
-      end
-
-      s = CGI.unescape_html(s)
-      s.strip
-    end
-
-    cols.reject!{|e| e.empty? }
-
-    if cols.size >= 1
-      cols
-    else
-      nil
-    end
   end
 end
