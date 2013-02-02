@@ -19,9 +19,9 @@ class Parser
     doc.each_line do |line|
       cols = parse_row(line)
       if cols
-        # @todo 全角数字
-        if cols[0].match(/(\d+[:：]\d+)/)
-          time_str = $1.gsub('：', ':')
+        time_col = cols[0].tr('０-９：', '0-9:')
+        if time_col.match(/(\d+:\d+)/)
+          time_str = $1
           title = cols[1 .. -1].join(' ')
 
           timetable << [time_str, title]
