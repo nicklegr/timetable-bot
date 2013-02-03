@@ -35,7 +35,7 @@ class Parser
         time_col = cols[0].tr('０-９：', '0-9:')
         if time_col.match(/(\d+:\d+)/)
           time_str = $1
-          title = cols[1 .. -1].join(' ')
+          title = cols[1 .. -1].join(' / ')
 
           timetable << [time_str, title]
         end
