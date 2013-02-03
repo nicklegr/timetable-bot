@@ -17,7 +17,7 @@ class Tweet
 
   def self.to_tweet(topic)
     starts_at = topic['starts_at'].getlocal.strftime('%-H:%M')
-    title = topic['title']
+    title = topic['title'].gsub(/[　 ]+/, ' ')
     hashtag = topic['hashtag'].empty? ? '' : '#' + topic['hashtag']
     url = topic['url']
 
