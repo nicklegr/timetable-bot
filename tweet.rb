@@ -17,8 +17,8 @@ class Tweet
 
   def self.to_tweet(topic)
     starts_at = topic['starts_at'].getlocal.strftime('%-H:%M')
-    title = topic['title'].gsub(/@(\w+)/, '(at)\1') # @todo デバッグ終わったらそのまま出力
-    hashtag = topic['hashtag'].empty? ? '' : '(hash)' + topic['hashtag'] # @todo デバッグ終わったら#に
+    title = topic['title']
+    hashtag = topic['hashtag'].empty? ? '' : '#' + topic['hashtag']
     url = topic['url']
 
     # 140文字超えたらタイトルカット
