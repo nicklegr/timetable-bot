@@ -21,4 +21,5 @@ tweets = Tweet.generate
 
 tweets.each do |tweet|
   Twitter.update(tweet)
+  sleep(2)
 end
